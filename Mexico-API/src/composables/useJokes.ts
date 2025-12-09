@@ -7,8 +7,12 @@ export function useJokes() {
 
   const isLoading = ref(false);
   const error = ref<string | null>(null);
+  const isFetching = ref(false);
 
   const fetchNewJoke = async () => {
+    if (isFetching.value) return;
+    isFetching.value = true;
+
     try {
       isLoading.value = true;
       error.value = null;
@@ -25,6 +29,7 @@ export function useJokes() {
       error.value = "Failed to fetch a new joke.";
     } finally {
       isLoading.value = false;
+      isFetching.value = false;
     }
   };
 
